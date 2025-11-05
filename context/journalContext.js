@@ -5,7 +5,7 @@ export const JournalContext = createContext();
 export function JournalProvider({ children }) {
   const [entries, setEntries] = useState([]);
 
-  // Create a new Entry
+  // Create a new entry
   const createEntry = useCallback((date, content) => {
     const newEntry = {
       id: Date.now().toString(),
@@ -34,7 +34,7 @@ export function JournalProvider({ children }) {
   // Get entry by ID
   const getEntryById = useCallback(
     (id) => {
-      return entries.find((entry) => entries.id === id);
+      return entries.find((entry) => entry.id === id);
     },
     [entries]
   );
@@ -48,7 +48,7 @@ export function JournalProvider({ children }) {
       dateEnd.setHours(23, 59, 59, 59);
 
       return entries.find(
-        (entry) => entries.date >= dateStart && entry.date <= dateEnd
+        (entry) => entry.date >= dateStart && entry.date <= dateEnd
       );
     },
     [entries]
