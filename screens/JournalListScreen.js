@@ -6,14 +6,16 @@ import {
   Touchable,
   TouchableOpacity,
   navigation,
+  FlatList,
 } from "react-native";
 import { JournalContext } from "../context/journalContext";
+import { formatDate } from "../utils/dateUtils";
 
 export default function JournalListScreen({ navigation }) {
   const { entries } = useContext(JournalContext);
 
   const handleNewEntry = () => {
-    navigation.navigate("JournalEntry", { date: new Date().toISOString() });
+    navigation.navigate("JournalEntry");
   };
 
   const handleSelectEntry = (entry) => {
