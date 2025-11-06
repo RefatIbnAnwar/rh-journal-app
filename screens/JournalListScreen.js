@@ -19,7 +19,10 @@ export default function JournalListScreen({ navigation }) {
   };
 
   const handleSelectEntry = (entry) => {
-    navigation.navigate("JournalEntry", { entryId: entry.id });
+    navigation.navigate("EditEntry", {
+      entryId: entry.id,
+      content: entry.content,
+    });
   };
 
   const renderEntry = ({ item }) => (
