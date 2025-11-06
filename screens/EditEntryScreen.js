@@ -11,7 +11,7 @@ import {
 import { JournalContext } from "../context/journalContext";
 
 export default function EditEntryScreen({ route, navigation }) {
-  const { editEntry } = useContext(JournalContext);
+  const { editEntry, removeEntry } = useContext(JournalContext);
   const { entryId, content: initialContent } = route.params;
   const [content, setContent] = useState(initialContent);
 
@@ -22,6 +22,20 @@ export default function EditEntryScreen({ route, navigation }) {
     }
     editEntry(entryId, content);
     navigation.popToTop();
+  };
+
+  const handleDelete = () => {
+    Alert.alert("Delete Entry", "Are you sure you want to delete this entry?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          removeEntry(entryId);
+          navigation.goBack();
+        },
+      },
+    ]);
   };
 
   return (
@@ -37,6 +51,9 @@ export default function EditEntryScreen({ route, navigation }) {
         />
       </ScrollView>
       <View style={styles.footer}>
+        <TouchableOpacity style={styles.deleteBtn} onPress={handleDelete}>
+          <Text style={styles.deleteBtnText}>Delete</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
           <Text style={styles.saveBtnText}>Save Changes</Text>
         </TouchableOpacity>
@@ -64,13 +81,28 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   footer: {
+    flexDirection: "row",
     paddingHorizontal: 16,
     paddingVertical: 12,
+    gap: 12,
+  },
+  deleteBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    backgroundColor: "#FF3B30",
+    borderRadius: 16,
+    alignItems: "center",
+  },
+  deleteBtnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
   saveBtn: {
+    flex: 2,
     paddingVertical: 12,
     backgroundColor: "#007AFF",
-    borderRadius: 8,
+    borderRadius: 16,
     alignItems: "center",
   },
   saveBtnText: {
