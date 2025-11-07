@@ -20,59 +20,63 @@ export default function JournalEntryScreen({ route, navigation }) {
   const date = route?.params?.date ?? new Date().toISOString();
   const entryId = route?.params?.entryId ?? Date.now().toString();
   const [content, setContent] = useState("");
-  const [currentEntry, setCurrentEntry] = useState(null);
+  //const [currentEntry, setCurrentEntry] = useState(null);
 
-  useEffect(() => {
-    loadEntry();
-  }, []);
+  // useEffect(() => {
+  //   loadEntry();
+  // }, []);
 
-  const loadEntry = () => {
-    if (entryId) {
-      const entry = getEntryById(entryId);
-      if (entry) {
-        setCurrentEntry(entry);
-        setContent(entry.content);
-      }
-    }
-    // else if (date) {
-    //   const existingEntry = getEntryByDate(date);
-    //   if (existingEntry) {
-    //     setCurrentEntry(existingEntry);
-    //     setContent(existingEntry.content);
-    //   }
-    // }
-  };
+  // const loadEntry = () => {
+  //   if (entryId) {
+  //     const entry = getEntryById(entryId);
+  //     if (entry) {
+  //       setCurrentEntry(entry);
+  //       setContent(entry.content);
+  //     }
+  //   }
+  //   // else if (date) {
+  //   //   const existingEntry = getEntryByDate(date);
+  //   //   if (existingEntry) {
+  //   //     setCurrentEntry(existingEntry);
+  //   //     setContent(existingEntry.content);
+  //   //   }
+  //   // }
+  // };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log(content);
     if (!content.trim()) {
       Alert.alert("Empty Entry", "Please write something before saving.");
       return;
     }
-    if (currentEntry) {
-      navigation.navigate("EditEntry", { entryId: currentEntry.id, content });
-    } else {
-      createEntry(date, content);
-      setContent("");
-      setCurrentEntry(null);
-      navigation.goBack();
-    }
+    // if (currentEntry) {
+    //   navigation.navigate("EditEntry", { entryId: currentEntry.id, content });
+    // } else {
+    //   createEntry(date, content);
+    //   setContent("");
+    //   setCurrentEntry(null);
+    //   navigation.goBack();
+    // }
+
+    await createEntry(date, content);
+    setContent("");
+    navigation.goBack();
   };
 
-  const handleDelete = () => {
-    if (!currentEntry) return;
-    Alert.alert("Delete Entry", "Are you sure you want to delete this entry?", [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: () => {
-          removeEntry(currentEntry.id);
-          navigation.goBack();
-        },
-      },
-    ]);
-  };
+  // const handleDelete = () => {
+  //   if (!currentEntry) return;
+  //   Alert.alert("Delete Entry", "Are you sure you want to delete this entry?", [
+  //     { text: "Cancel", style: "cancel" },
+  //     {
+  //       text: "Delete",
+  //       style: "destructive",
+  //       onPress: async () => {
+  //         await removeEntry(currentEntry.id);
+  //         navigation.goBack();
+  //       },
+  //     },
+  //   ]);
+  // };
 
   return (
     <View style={styles.container}>
@@ -90,11 +94,11 @@ export default function JournalEntryScreen({ route, navigation }) {
         />
       </ScrollView>
       <View style={styles.footer}>
-        {currentEntry && (
+        {/* {currentEntry && (
           <TouchableOpacity style={styles.deleteBtn} onPress={handleDelete}>
             <Text style={styles.deleteBtnText}>Delete</Text>
           </TouchableOpacity>
-        )}
+        )} */}
         <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
           <Text style={styles.saveBtnText}>Save</Text>
         </TouchableOpacity>

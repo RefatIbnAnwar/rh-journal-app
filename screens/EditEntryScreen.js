@@ -15,12 +15,12 @@ export default function EditEntryScreen({ route, navigation }) {
   const { entryId, content: initialContent } = route.params;
   const [content, setContent] = useState(initialContent);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!content.trim()) {
       Alert.alert("Empty Entry", "Please write something before saving.");
       return;
     }
-    editEntry(entryId, content);
+    await editEntry(entryId, content);
     navigation.popToTop();
   };
 
@@ -30,8 +30,8 @@ export default function EditEntryScreen({ route, navigation }) {
       {
         text: "Delete",
         style: "destructive",
-        onPress: () => {
-          removeEntry(entryId);
+        onPress: async () => {
+          await removeEntry(entryId);
           navigation.goBack();
         },
       },

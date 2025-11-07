@@ -12,7 +12,15 @@ import { JournalContext } from "../context/journalContext";
 import { formatDate } from "../utils/dateUtils";
 
 export default function JournalListScreen({ navigation }) {
-  const { entries } = useContext(JournalContext);
+  const { entries, loadEntries } = useContext(JournalContext);
+
+  useEffect(() => {
+    loadEntries();
+    const unsubscribe = navigation.addListener("focus", () => {
+      loadEntries();
+    });
+    return unsubscribe;
+  }, [navigation, loadEntries]);
 
   const handleNewEntry = () => {
     navigation.navigate("JournalEntry");

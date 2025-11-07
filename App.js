@@ -6,10 +6,16 @@ import JournalListScreen from "./screens/JournalListScreen";
 import JournalEntryScreen from "./screens/JournalEntryScreen";
 import EditEntryScreen from "./screens/EditEntryScreen";
 import { JournalProvider } from "./context/journalContext";
+import { useEffect } from "react";
+import { initializeRealm } from "./utils/realmConfig";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  useEffect(() => {
+    initializeRealm();
+  }, []);
+
   return (
     <JournalProvider>
       <NavigationContainer>
