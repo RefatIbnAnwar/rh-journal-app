@@ -1,20 +1,37 @@
+import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { JournalProvider } from "./context/journalContext";
 import JournalListScreen from "./screens/JournalListScreen";
 import JournalEntryScreen from "./screens/JournalEntryScreen";
 import EditEntryScreen from "./screens/EditEntryScreen";
-import { JournalProvider } from "./context/journalContext";
-import { useEffect } from "react";
 import { initializeRealm } from "./utils/realmConfig";
+import { ActivityIndicator, View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [isRealmReady, setIsRealmReady] = useState(false);
+
   useEffect(() => {
-    initializeRealm();
+    const init = async () => {
+      try {
+        await initializeRealm();
+        setIsRealmReady(true);
+      } catch (error) {
+        console.error("Failed to initialize Realm:", error);
+      }
+    };
+    init();
   }, []);
+
+  if (!isRealmReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
 
   return (
     <JournalProvider>
@@ -52,12 +69,3 @@ export default function App() {
     </JournalProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

@@ -26,10 +26,11 @@ export async function initializeRealm() {
 
 export async function addEntry(date, content) {
   if (!realm) return;
+  console.log(date);
   realm.write(() => {
     realm.create("JournalEntry", {
       id: new Realm.BSON.ObjectID(),
-      data: new Date(date),
+      date: new Date(date),
       content,
       createdAt: new Date(),
       updatedAt: new Date(),

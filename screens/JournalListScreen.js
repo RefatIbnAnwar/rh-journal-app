@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Text,
   StyleSheet,
@@ -15,7 +15,6 @@ export default function JournalListScreen({ navigation }) {
   const { entries, loadEntries } = useContext(JournalContext);
 
   useEffect(() => {
-    loadEntries();
     const unsubscribe = navigation.addListener("focus", () => {
       loadEntries();
     });
@@ -23,9 +22,10 @@ export default function JournalListScreen({ navigation }) {
   }, [navigation, loadEntries]);
 
   const handleNewEntry = () => {
-    navigation.navigate("JournalEntry");
+    navigation.navigate("JournalEntry", {
+      date: Date.now(),
+    });
   };
-
   const handleSelectEntry = (entry) => {
     navigation.navigate("EditEntry", {
       entryId: entry.id,

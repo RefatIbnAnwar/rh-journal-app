@@ -17,7 +17,7 @@ import { formatDate } from "../utils/dateUtils";
 export default function JournalEntryScreen({ route, navigation }) {
   const { createEntry, removeEntry, getEntryByDate, getEntryById } =
     useContext(JournalContext);
-  const date = route?.params?.date ?? new Date().toISOString();
+  const date = route?.params?.date ?? Date.now();
   const entryId = route?.params?.entryId ?? Date.now().toString();
   const [content, setContent] = useState("");
   //const [currentEntry, setCurrentEntry] = useState(null);
@@ -57,7 +57,7 @@ export default function JournalEntryScreen({ route, navigation }) {
     //   setCurrentEntry(null);
     //   navigation.goBack();
     // }
-
+    console.log(date);
     await createEntry(date, content);
     setContent("");
     navigation.goBack();
@@ -81,9 +81,7 @@ export default function JournalEntryScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.dateHeader}>
-          {currentEntry ? formatDate(currentEntry.date) : formatDate(date)}
-        </Text>
+        <Text style={styles.dateHeader}>{formatDate(date)}</Text>
         <TextInput
           style={styles.input}
           placeholder="Start writing..."
