@@ -8,6 +8,7 @@ A simple and elegant React Native journal application following Apple's iOS desi
 - 📝 Edit existing entries
 - 🗑️ Delete entries
 - 📱 Modern iOS-style UI
+- 💿 Database persistence - Realm
 
 ## Tech Stack
 
@@ -68,7 +69,6 @@ npm start
 
 ## Future Enhancements
 
-- Database persistence (AsyncStorage/Realm)
 - Search functionality
 - Calendar view
 - Tags/Categories
