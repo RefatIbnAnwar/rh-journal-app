@@ -45,15 +45,6 @@ export default function JournalListScreen({ navigation }) {
     </TouchableOpacity>
   );
 
-  // return (
-  //   <View style={styles.container}>
-  //     <Text>Journal list screen</Text>
-  //     <TouchableOpacity style={styles.fab} onPress={handleNewEntry}>
-  //       <Text style={styles.fabText}>+</Text>
-  //     </TouchableOpacity>
-  //   </View>
-  // );
-
   return (
     <View style={styles.container}>
       {entries.length === 0 ? (

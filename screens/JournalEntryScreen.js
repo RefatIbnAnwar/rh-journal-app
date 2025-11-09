@@ -44,7 +44,6 @@ export default function JournalEntryScreen({ route, navigation }) {
   // };
 
   const handleSave = async () => {
-    console.log(content);
     if (!content.trim()) {
       Alert.alert("Empty Entry", "Please write something before saving.");
       return;
@@ -57,7 +56,6 @@ export default function JournalEntryScreen({ route, navigation }) {
     //   setCurrentEntry(null);
     //   navigation.goBack();
     // }
-    console.log(date);
     await createEntry(date, content);
     setContent("");
     navigation.goBack();
