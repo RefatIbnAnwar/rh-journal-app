@@ -9,14 +9,38 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
+import { AuthContext } from "../context/AuthContext";
 
 export default function AuthScreen() {
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, register, isLoading, error } = useContext(AuthContext);
 
-  const handleAuth = async () => {};
+  const handleAuth = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    if (!isLogin && !name) {
+      Alert.alert("Error", "Please enter your name");
+      return;
+    }
+
+    if (isLogin) {
+      const result = await login(email, password);
+      if (!result.success) {
+        Alert.alert("Login Failed", result.error);
+      }
+    } else {
+      const result = await register(name, email, password);
+      if (!result.success) {
+        Alert.alert("Registration Failed", result.error);
+      }
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>

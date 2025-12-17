@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
     setError(null);
 
     try {
-      const response = await fetch("${API_BASE_URL}/auth/register", {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,17 +52,22 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (email, password) => {
     setIsLoading(true);
     setError(null);
+    console.log("log in called.");
 
     try {
-      const response = await fetch("${API_BASE_URL}/auth/login", {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
+      console.log("log in data fetched.");
 
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed.");
+      }
       setUser(data.user);
       setToken(data.token);
 
